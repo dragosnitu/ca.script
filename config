@@ -1,0 +1,13 @@
+DAYS_ROOT=7348
+DAYS_CERT=7348
+PASS='random_pass'
+ROOT_DIR=/root/ca.script
+INTERMEDIATE=001
+MY_URL=vpn.domain.tld
+SHA=sha256
+BITS=2048
+
+COMPANY=Company
+CITY=City
+STATE=State
+COUNTRY=US

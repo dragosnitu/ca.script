@@ -1,0 +1,21 @@
+remote TEMPLATE_NAME 1194
+nobind
+proto udp
+client
+dev tun
+mute-replay-warnings
+
+compress lz4
+fast-io
+txqueuelen 1000
+keepalive 1 5
+sndbuf 393216
+rcvbuf 393216
+
+
+remote-cert-tls server
+verify-x509-name 'TEMPLATE_NAME' name
+tls-version-min 1.2
+auth-nocache
+persist-key
+key-direction 1

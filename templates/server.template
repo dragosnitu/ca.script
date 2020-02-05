@@ -1,0 +1,31 @@
+local TEMPLATE_NAME
+port 1194
+proto udp
+dev tun
+persist-tun
+mute-replay-warnings
+
+topology subnet
+server 172.16.1.0 255.255.255.0
+#push "route 10.86.2.0 255.255.255.0"
+
+compress lz4
+fast-io
+txqueuelen 1000
+keepalive 1 5
+sndbuf 393216
+rcvbuf 393216
+push "sndbuf 393216"
+push "rcvbuf 393216"
+
+remote-cert-tls client
+tls-version-min 1.2
+ncp-ciphers AES-128-GCM
+tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256
+tls-ciphersuites TLS-DHE-RSA-WITH-AES-128-GCM-SHA256
+
+client-config-dir ccd
+#ccd-exclusive
+
+persist-key
+key-direction 0

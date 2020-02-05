@@ -1,0 +1,133 @@
+HOME            = TEMPLATE_HOME
+dir             = $HOME
+RANDFILE        = $ENV::HOME/.rnd
+MY_URL          = TEMPLATE_NAME
+COMMENT         = "TEMPLATE_COMPANY generated certificate"
+
+[ ca ]
+default_ca      = CA_default
+
+[ CA_default ]
+certs           = $dir/certs
+crl_dir         = $dir/crl
+database        = $dir/index.txt
+new_certs_dir   = $dir/newcerts
+certificate     = $dir/certs/ca-int.crt
+serial          = $dir/serial
+crlnumber       = $dir/crlnumber
+crl             = $dir/crl/ca.crl
+crl_extensions  = crl_ext
+private_key     = $dir/private/ca-int.key
+RANDFILE        = $ENV::HOME/.rnd
+x509_extensions = usr_cert
+name_opt        = ca_default
+cert_opt        = ca_default
+default_days    = TEMPLATE_DAYS_CERT
+default_crl_days= TEMPLATE_DAYS_CERT
+default_md      = TEMPLATE_SHA
+preserve        = no
+policy          = policy_match
+
+[ CA_root ]
+certs           = $dir/certs
+crl_dir         = $dir/crl
+database        = $dir/index.txt
+new_certs_dir   = $dir/newcerts
+certificate     = $dir/certs/ca.crt
+serial          = $dir/serial
+crlnumber       = $dir/crlnumber
+crl             = $dir/crl/ca.crl
+crl_extensions  = crl_ext
+private_key     = $dir/private/ca.key
+RANDFILE        = $ENV::HOME/.rnd
+x509_extensions = usr_cert
+name_opt        = ca_default
+cert_opt        = ca_default
+default_days    = TEMPLATE_DAYS_ROOT
+default_crl_days= TEMPLATE_DAYS_ROOT
+default_md      = TEMPLATE_SHA
+preserve        = no
+policy          = policy_match
+
+[ policy_match ]
+countryName             = match
+stateOrProvinceName     = match
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits            = TEMPLATE_BITS
+default_md              = TEMPLATE_SHA
+default_keyfile         = ca.key
+distinguished_name      = req_distinguished_name
+x509_extensions         = v3_ca
+string_mask             = utf8only
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+countryName_min                 = 2
+countryName_max                 = 2
+stateOrProvinceName             = State or Province Name (full name)
+localityName                    = Locality Name (eg, city)
+0.organizationName              = Organization Name (eg, company)
+organizationalUnitName          = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = Networking
+commonName                      = Common Name (eg, your name or your server\'s hostname)
+commonName_max                  = 64
+emailAddress                    = Email Address
+emailAddress_max                = 64
+
+[ usr_cert ]
+basicConstraints                = CA:FALSE
+nsCertType                      = client, email
+keyUsage                        = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage                = clientAuth, emailProtection
+nsComment                       = $COMMENT
+subjectKeyIdentifier            = hash
+authorityKeyIdentifier          = keyid,issuer
+#nsCaRevocationUrl               = https://$MY_URL/ca.crl
+#nsRevocationUrl                 = https://$MY_URL/ca.crl
+#crlDistributionPoints           = URI:https://$MY_URL/ca.crl
+#authorityInfoAccess            = OCSP;URI:http://$MY_URL:2560
+
+[ server_cert ]
+basicConstraints                = CA:FALSE
+nsCertType                      = server
+keyUsage                        = critical, nonRepudiation, digitalSignature, keyEncipherment, keyAgreement
+extendedKeyUsage                = serverAuth
+nsComment                       = $COMMENT
+subjectKeyIdentifier            = hash
+authorityKeyIdentifier          = keyid,issuer:always
+#nsCaRevocationUrl               = https://$MY_URL/ca.crl
+#nsRevocationUrl                 = https://$MY_URL/ca.crl
+#crlDistributionPoints           = URI:https://$MY_URL/ca.crl
+#authorityInfoAccess            = OCSP;URI:http://$MY_URL:2560
+
+[ v3_ca ]
+basicConstraints                = critical,CA:true
+nsCertType                      = sslCA, emailCA
+keyUsage                        = critical, digitalSignature, cRLSign, keyCertSign
+subjectKeyIdentifier            = hash
+authorityKeyIdentifier          = keyid:always,issuer
+nsComment                       = $COMMENT
+#nsCaRevocationUrl               = https://$MY_URL/ca.crl
+#crlDistributionPoints           = URI:https://$MY_URL/ca.crl
+#authorityInfoAccess            = OCSP;URI:http://$MY_URL:2560
+
+[ v3_int_ca ]
+basicConstraints                = critical,CA:true
+nsCertType                      = sslCA, emailCA
+keyUsage                        = critical, digitalSignature, cRLSign, keyCertSign
+subjectKeyIdentifier            = hash
+authorityKeyIdentifier          = keyid:always,issuer
+nsComment                       = $COMMENT
+#nsCaRevocationUrl               = https://$MY_URL/ca.crl
+#nsRevocationUrl                 = https://$MY_URL/ca.crl
+#crlDistributionPoints           = URI:https://$MY_URL/ca.crl
+#authorityInfoAccess            = OCSP;URI:http://$MY_URL:2560
+
+[ crl_ext ]
+issuerAltName                   = issuer:copy
+authorityKeyIdentifier          = keyid:always
